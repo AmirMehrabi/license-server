@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Plan;
+use App\Models\Customer;
 
 use Laravel\Sanctum\HasApiTokens;
 
@@ -69,6 +71,7 @@ class License extends Model
 
     protected $appends = [
         'expires_in',
+        'allowed_users'
     ];
 
     public function getExpiresInAttribute()
@@ -82,11 +85,48 @@ class License extends Model
 
     public function getStatusAttribute($value)
     {
-        if ($this->expiration_date < now()) {
+        if (!empty($this->expiration_date) && $this->expiration_date < now()) {
             return 'expired';
         }
 
         return $value;
+    }
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+
+    public function getStatusBadgeAttribute()
+    {
+        if ($this->status == 'expired') {
+            return 'border-danger text-danger';
+        }
+
+        if ($this->status == 'active') {
+            return 'border-success text-success';
+        }
+
+        if ($this->status == 'inactive') {
+            return 'border-secondary text-secondary';
+        }
+
+        if ($this->status == 'suspended') {
+            return 'border-warning text-warning';
+        }
+
+        return 'border-success text-success';
+    }
+
+    public function getAllowedUsersAttribute()
+    {
+        return $this->plan->allowed_users;
     }
 
     public function user(): BelongsTo
