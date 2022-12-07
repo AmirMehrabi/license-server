@@ -1,5 +1,5 @@
 {
-    "name": "laravel-ready/license-server",
+    "name": "amoori/license-server",
     "description": "License server for Laravel",
     "type": "library",
     "license": "MIT",
