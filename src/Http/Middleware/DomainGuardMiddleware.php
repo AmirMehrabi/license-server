@@ -13,6 +13,8 @@ class DomainGuardMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
+        // logger(' header is, header is '.$request->header('x-host'));
+        return $next($request);
         $host = $request->header('x-host');
         $hostName = $request->header('x-host-name');
 
