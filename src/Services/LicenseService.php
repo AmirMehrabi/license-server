@@ -28,6 +28,7 @@ class LicenseService
         }
 
         $domain = DomainSupport::validateDomain($domain);
+        $domain = $domain;
         $subDomain = $domain->subDomain()->toString();
 
         if (Config::get('license-server.allow_subdomains') && !empty($subDomain)) {
@@ -75,9 +76,11 @@ class LicenseService
         ];
 
         if ($domain) {
-            $domain = self::validateDomain($domain);
+            // $domain = self::validateDomain($domain);
+            
 
-            if (self::getLicenseByDomain($domain) !== null) {
+            logger('we heeere checking for domain .'. $domain);
+            if (self::getLicenseByDomain($domain) != null) {
                 throw new LicenseException('License already exists for this domain.');
             }
 
@@ -177,7 +180,10 @@ class LicenseService
             ['domain', '=', $domain],
         ]);
 
+
+        logger(' we here');
         if ($licenseKey) {
+            logger('licence issss ' . $licenseKey);
             $licenseQuery->where('license_key', $licenseKey);
         }
 
