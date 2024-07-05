@@ -32,8 +32,8 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.4",
-        "orchestra/testbench": "^3.8.0",  // Adjusted to the compatible version for Laravel 5.8
-        "phpunit/phpunit": "^8.0"  // Adjusted to the compatible version for Laravel 5.8
+        "orchestra/testbench": "^3.8.0",  
+        "phpunit/phpunit": "^8.0"
     },
     "autoload": {
         "psr-4": {
